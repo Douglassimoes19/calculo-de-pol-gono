@@ -6,8 +6,9 @@
 struct vertices{
     float x;
     float y;
-};
+};//struct que armazena os vertices;
 
+//esboço das funções
 float areatriangulo(struct vertices v[], int tamanho);
 
 int main(void) {
@@ -15,18 +16,16 @@ int main(void) {
     float n1, n2;
     int vertice;
 
-    arquivo = fopen("trabalhoarea.txt", "r");
+    arquivo = fopen("trabalhoarea.txt", "r");// abre o arquivo em modo de leitura
 
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1); 
     }
 
-    fscanf(arquivo, "%d", &vertice);
-    struct vertices v[vertice];
+    fscanf(arquivo, "%d", &vertice); // armazena quantidade de vertices
+    struct vertices v[vertice]; // cria struct com a qtd de vertices 
     
-    /* // Ignorar a primeira linha
-    fscanf(arquivo, "%*[^\n]"); */
 
     // Ler e armazenar os valores
     for (int i = 0; i < vertice; i++) {
@@ -37,14 +36,15 @@ int main(void) {
     }
 
 
-    float area = areatriangulo(v, vertice);
+    float area = areatriangulo(v, vertice); // chama a função 
 
-    printf("A area do poligono é: %.2f", area);
+    printf("A area do poligono é: %.2f", area); // imprime o valor na tela
     fclose(arquivo);
 
     return 0;
 }
 
+// Função que calcula a area do poligono de acordo com a soma da area dos triangulos, o calculo é feito por meio do determinante da matriz;
 float areatriangulo(struct vertices v[], int tamanho) {
     float area = 0;
 
@@ -58,24 +58,20 @@ float areatriangulo(struct vertices v[], int tamanho) {
         float det = 0;
 
         // Cálculo do determinante
-        det = det + (M[0][0] * M[1][1] * M[2][2]);// 0 = 0 + 1*3*1 : 3      /// 0 = 0 + 1*6*1 : 6  
-        det = det + (M[0][1] * M[1][2] * M[2][0]);// 3 = 3 + 2*1*5 : 13     /// 6 = 6 + 2*1*2 : 6 + 4 :10 
-        det = det + (M[0][2] * M[1][0] * M[2][1]);// 13 = 13 + 1*4*6 : 37   ///10 = 10+ 1*5*5 : 10 + 25 : 35
-        det = det - (M[2][0] * M[1][1] * M[0][2]);// 37 = 37 - 5*3*1 : 22   ///35 = 35- 2*6*1 : 35 - 12 : 23
-        det = det - (M[2][1] * M[1][2] * M[0][0]);// 22 = 22 - 6*1*1 : 16   ///23 = 23- 5*1*1 : 23 - 5: 18
-        det = det - (M[2][2] * M[1][0] * M[0][1]);// 16 = 16 - 1*4*2 : 8    ///18 = 18- 1*5*2 : 18 - 10: 8
+        det = det + (M[0][0] * M[1][1] * M[2][2]);
+        det = det + (M[0][1] * M[1][2] * M[2][0]); 
+        det = det + (M[0][2] * M[1][0] * M[2][1]);
+        det = det - (M[2][0] * M[1][1] * M[0][2]);
+        det = det - (M[2][1] * M[1][2] * M[0][0]);
+        det = det - (M[2][2] * M[1][0] * M[0][1]);
 
         // Área do triângulo
-        area += det / 2;// 0 = 8/2  /// 4 = 8/2
+        area += det / 2;
     }
 
     if (area < 0) {
         area = -area;
     }
 
-    return area; // area = 8
+    return area; 
 }
-
-
-// a area do primeiro triangulo é 4;
-//a area do segundo triangulo é 4;
